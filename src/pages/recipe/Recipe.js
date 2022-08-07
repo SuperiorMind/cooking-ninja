@@ -1,5 +1,5 @@
 import './Recipe.css'
-import { useParams,useHistory } from "react-router-dom"
+import { useParams,useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import { useTheme } from '../../hooks/useTheme'
 import { projectFirestore } from '../../firebase/config'
@@ -9,15 +9,15 @@ export default function Recipe() {
   const [recipe, setRecipe] = useState(null)
   const [isPending, setIsPending] = useState(false)
   const [error, setError] = useState(false)
-  const history = useHistory()
+  const navigate = useNavigate()
   const {mode} = useTheme()
   useEffect(()=>{
     if (error){
       setTimeout(()=>{
-       history.push('/')
+        navigate('/')
       },2000)
     } 
-  },[error, history])
+  },[error, navigate])
   useEffect(()=>{
     setIsPending(true)
     const unsub = projectFirestore.collection('recipe').doc(id).onSnapshot((doc)=>{

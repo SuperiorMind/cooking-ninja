@@ -1,7 +1,7 @@
 import './Create.css'
 import { useRef, useState } from 'react'
 import { projectFirestore } from '../../firebase/config'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Create() {
   const [title, setTitle] = useState('')
@@ -10,14 +10,14 @@ export default function Create() {
   const [newIngredient, setNewIngredient] = useState('')
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null);
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSubmit =async(e)=>{
     e.preventDefault()
     const doc = {title,ingredients,method,cookingTime:cookingTime+' minutes'}
     try{
       await projectFirestore.collection('recipe').add(doc)
-      history.push('/')
+      navigate('/')
     }catch(err){
       console.log(err)
     }
